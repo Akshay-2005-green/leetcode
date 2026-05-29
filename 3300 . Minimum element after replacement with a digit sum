@@ -1,0 +1,10 @@
+class Solution(object):
+    def minElement(self, nums):
+        digit_sum=[]
+        for num in nums:
+            sum=0
+            for digit in str(num):
+                sum+=int(digit)
+            digit_sum.append(sum)
+
+        return min(digit_sum)
