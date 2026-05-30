@@ -1,0 +1,69 @@
+# techniue used fenwick tree(Binary indexed Tree) and Segment tree
+from sortedcontainers import SortedList
+from typing import List
+
+MX = 5 * 10**4 
+
+class ST:
+    def __init__(self):
+        self.st = [0] * (4 * (MX + 1))
+
+    def insert(self, idx, val, node=1, l=0, r=MX):
+        if l == r:
+            self.st[node] = val
+            return
+
+        mid = l + (r - l) // 2
+        if idx <= mid:
+            self.insert(idx, val, node * 2, l, mid)
+        else:
+            self.insert(idx, val, node * 2 + 1, mid + 1, r)
+
+        self.st[node] = max(self.st[node * 2], self.st[node * 2 + 1])
+
+    def check(self, ql, qr, node=1, l=0, r=MX):
+        if r < ql or l > qr or ql > qr:
+            return 0
+
+        if ql <= l and r <= qr:
+            return self.st[node]
+
+        mid = l + (r - l) // 2
+        return max(
+            self.check(ql, qr, node * 2, l, mid),
+            self.check(ql, qr, node * 2 + 1, mid + 1, r)
+        )
+
+
+class Solution:
+    def getResults(self, queries: List[List[int]]) -> List[bool]:
+        res = []
+        obs = SortedList([0, MX + 1])
+
+        st = ST()
+        st.insert(MX + 1, MX + 1)
+
+        for q in queries:
+            if q[0] == 1:
+                x = q[1]
+
+                idx = obs.bisect_left(x)
+                right = obs[idx]
+                left = obs[idx - 1]
+                st.insert(right, right - x)
+                st.insert(x, x - left)
+
+                obs.add(x)
+
+            else:
+                x, sz = q[1], q[2]
+
+                idx = obs.bisect_left(x)
+                left = obs[idx - 1]
+                mx_gap = max(
+                    st.check(0, left),
+                    x - left
+                )
+
+                res.append(mx_gap >= sz)
+        return res
