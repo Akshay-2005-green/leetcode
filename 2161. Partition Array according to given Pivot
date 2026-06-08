@@ -1,0 +1,16 @@
+class Solution(object):
+    def pivotArray(self, nums, pivot):
+        left_elem=[]
+        right_elem=[]
+        equal_elem=[]
+        n=len(nums)
+        for i in range(n):
+            if nums[i] < pivot:
+                left_elem.append(nums[i])
+            elif nums[i] > pivot:
+                right_elem.append(nums[i])
+            else:
+                equal_elem.append(nums[i])
+            
+        output=left_elem + equal_elem + right_elem
+        return output
