@@ -1,0 +1,6 @@
+class Solution(object):
+    def maxTotalValue(self, nums, k):
+        max_value = max(nums)
+        min_value = min(nums)
+        total = max_value - min_value
+        return total*k
