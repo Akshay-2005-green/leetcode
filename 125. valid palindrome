@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n=s.length();
+        string result;
+        for(char ch:s){
+            if(isalnum((unsigned char)ch)){
+                result+=tolower((unsigned char)ch);
+            }
+        }
+        int st=0;
+        int end=result.length()-1;
+        while(st<end){
+            if(result[st]!=result[end]) return false;
+            st++;
+            end--;
+        }
+        return true;
+    }
+};
