@@ -1,0 +1,16 @@
+class Solution {
+public:
+
+    bool isfind(string s, string part){
+        return (s.find(part)!= string::npos);
+    }
+    string removeOccurrences(string s, string part) {
+        int n=part.length();
+        int pos;
+        while(isfind(s,part)){
+            pos=s.find(part);
+            s.erase(pos,n);
+        }
+        return s;
+    }
+};
